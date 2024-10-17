@@ -1,12 +1,17 @@
 package com.expensetracker.expense_tracker.controllers;
 
 import com.expensetracker.expense_tracker.models.Expense;
+import com.expensetracker.expense_tracker.models.dtos.CategoryExpenseSummary;
+import com.expensetracker.expense_tracker.models.dtos.DateExpenseSummary;
 import com.expensetracker.expense_tracker.service.ExpenseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -62,5 +67,55 @@ public class ExpenseController {
             logger.warn("Expense not found with ID: {}", id);
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<Expense>> getExpensesByCategory(@PathVariable Long id) {
+        logger.info("Fetching expenses by category with ID: {}", id);
+        List<Expense> res = expenseService.getExpensesByCategory(id);
+        if (res == null) {
+            logger.warn("Category not found with ID: {}", id);
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(res);
+        }
+    }
+
+    @GetMapping("/date/{dateString}")
+    public ResponseEntity<List<Expense>> getExpensesByDate(@PathVariable String dateString) {
+        logger.info("Fetching expenses by date with date: {}", dateString);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        try {
+            Date date = formatter.parse(dateString);
+            // Assuming a service method that fetches expenses by date
+            List<Expense> expenses = expenseService.getExpensesByDate(date);
+            return ResponseEntity.ok(expenses);
+        } catch (ParseException e) {
+            logger.error("Invalid date format: {}", dateString, e);
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Expense> updateExpenseById(@PathVariable Long id, @RequestBody Expense updatedExpense) {
+        try {
+            Expense updated = expenseService.updateExpense(id, updatedExpense);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/summary/category")
+    public ResponseEntity<List<CategoryExpenseSummary>> getExpenseSummaryByCategory() {
+        List<CategoryExpenseSummary> summary = expenseService.getExpenseSummaryByCategory();
+        return ResponseEntity.ok(summary);
+    }
+
+    @GetMapping("/summary/date")
+    public ResponseEntity<List<DateExpenseSummary>> getExpenseSummaryByDate() {
+        List<DateExpenseSummary> summary = expenseService.getExpenseSummaryByDate();
+        return ResponseEntity.ok(summary);
     }
 }
