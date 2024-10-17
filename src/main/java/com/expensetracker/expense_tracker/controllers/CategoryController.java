@@ -1,10 +1,9 @@
 package com.expensetracker.expense_tracker.controllers;
 
-import com.expensetracker.expense_tracker.models.Category;
+import com.expensetracker.expense_tracker.models.entities.Category;
 import com.expensetracker.expense_tracker.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

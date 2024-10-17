@@ -1,6 +1,6 @@
 package com.expensetracker.expense_tracker.controllers;
 
-import com.expensetracker.expense_tracker.models.Expense;
+import com.expensetracker.expense_tracker.models.entities.Expense;
 import com.expensetracker.expense_tracker.models.dtos.CategoryExpenseSummary;
 import com.expensetracker.expense_tracker.models.dtos.DateExpenseSummary;
 import com.expensetracker.expense_tracker.service.ExpenseService;

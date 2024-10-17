@@ -1,6 +1,6 @@
 package com.expensetracker.expense_tracker.service;
 
-import com.expensetracker.expense_tracker.models.Category;
+import com.expensetracker.expense_tracker.models.entities.Category;
 import com.expensetracker.expense_tracker.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.expensetracker.expense_tracker.models;
+package com.expensetracker.expense_tracker.models.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
